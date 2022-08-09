@@ -1,6 +1,4 @@
 const canvas = document.querySelector("canvas");
-let randomNumber1 = Math.floor(Math.random() * 10 + 1);
-let randomNumber2 = Math.floor(Math.random() * 10 + 1);
 
 const c = canvas.getContext("2d");
 
@@ -86,17 +84,30 @@ function animate() {
   player.update();
   platform.draw();
 
+  let randomNumber1 = Math.floor(Math.random() * 10 + 1);
+  let randomNumber2 = Math.floor(Math.random() * 10 + 1);
+  let sum = randomNumber1 + randomNumber2;
+
   if (keys.right.pressed) {
     player.velocity.x = 3;
   } else if (keys.left.pressed) {
     player.velocity.x = -3;
   } else player.velocity.x = 0;
-
+  /// platform colision detection
   if (
     player.position.y + player.height <= platform.position.y &&
-    player.position.y + player.height + player.velocity.y >= platform.position.y
+    player.position.y + player.height + player.velocity.y >=
+      platform.position.y &&
+    player.position.x + player.width >= platform.position.x &&
+    player.position.x < +platform.position.x + platform.width
   ) {
-    player.velocity.y = 0;
+    let guess = prompt(
+      "Please solve the problem: " + randomNumber1 + "+" + randomNumber2
+    );
+    if (guess == sum) {
+      player.velocity.y = 0;
+      return;
+    }
   }
 }
 animate();
